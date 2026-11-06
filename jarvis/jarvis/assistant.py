@@ -76,11 +76,17 @@ class Assistant:
         self.gate.clear_stop()
 
     def switch_provider(self, provider_name: str, model: str | None = None) -> None:
-        self.cfg["provider"] = provider_name
+        name = (provider_name or "openai").lower()
+        if name not in ("openai", "chatgpt"):
+            raise ProviderError(
+                "Only ChatGPT (OpenAI) is supported.",
+                code="config",
+            )
+        self.cfg["provider"] = "openai"
         if model:
             self.cfg["model"] = model
         self.provider = create_provider(self.cfg)
-        self.audit.record("provider_switch", provider=provider_name, model=self.cfg.get("model"))
+        self.audit.record("provider_switch", provider="openai", model=self.cfg.get("model"))
 
     def _base_messages(self) -> list[ChatMessage]:
         return [ChatMessage(role="system", content=self.system_prompt), *self.history]

@@ -87,9 +87,12 @@ async def test_provider_switch_and_stream(tmp_path):
     a = Assistant(cfg=_cfg(tmp_path), provider=FakeProvider(events))
     out = await a.chat("hello")
     assert "Hi" in out
-    # switching to ollama without server should still construct provider
-    a.cfg["provider"] = "ollama"
-    from jarvis.providers import create_provider
+    from jarvis.providers import ProviderError, create_provider
 
-    a.provider = create_provider(a.cfg)
-    assert a.provider.name == "ollama"
+    a.cfg["provider"] = "claude"
+    with pytest.raises(ProviderError):
+        create_provider(a.cfg)
+    a.cfg["provider"] = "ollama"
+    with pytest.raises(ProviderError):
+        create_provider(a.cfg)
+

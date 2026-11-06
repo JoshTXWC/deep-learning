@@ -16,14 +16,13 @@ CONFIG_PATH = Path(os.environ.get("JARVIS_CONFIG") or (REPO / "jarvis.json"))
 DEFAULTS: dict = {
     "name": "Jarvis",
     "agent_dir": str(HOME_CANDIDATE),
-    "provider": "openai",  # openai | ollama | claude
+    "provider": "openai",  # ChatGPT / OpenAI only
     "model": "gpt-4.1-mini",
     "fallback_model": "gpt-4.1-nano",
     "reasoning_provider": "openai",
     "stt_provider": "local",  # local | openai
     "tts_provider": "local",  # local | openai | elevenlabs
     "openai_base_url": "https://api.openai.com/v1",
-    "ollama_base_url": "http://127.0.0.1:11434",
     "temperature": 0.7,
     "max_output_tokens": 2048,
     "request_timeout_s": 60,
@@ -70,7 +69,7 @@ def load_config(path: Path | None = None) -> dict:
     cfg_path = path or CONFIG_PATH
     if cfg_path.is_file():
         try:
-            user = json.loads(cfg_path.read_text(encoding="utf-8"))
+            user = json.loads(cfg_path.read_text(encoding="utf-8-sig"))
             if isinstance(user, dict):
                 cfg = _deep_merge(cfg, user)
         except (OSError, ValueError) as e:

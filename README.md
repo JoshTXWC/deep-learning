@@ -1,8 +1,8 @@
 # fullstack-agent (Jarvis / OpenAI fork)
 
-> Upstream project by [Jared Rhodenizer](https://jaredrhod.com). This fork adds a **secure multi-provider Jarvis core** with **ChatGPT / OpenAI** as a first-class brain, while preserving the original setup wizard, launchers, memory vault, backtalk, ai-visualizer, and barehands.
+> Upstream project by [Jared Rhodenizer](https://jaredrhod.com). This fork runs a **ChatGPT-only Jarvis core** (no Claude wiring), while keeping optional memory vault, ai-visualizer, and barehands pieces.
 
-**Runs on:** OpenAI (ChatGPT) via the new `jarvis/` core, and/or the original Claude Code + backtalk stack. Ollama is stubbed for local models. See [docs/INSTALL.md](docs/INSTALL.md), [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md), and [docs/SECURITY_AUDIT.md](docs/SECURITY_AUDIT.md).
+**Runs on:** OpenAI (ChatGPT) via `jarvis/`. See [docs/INSTALL.md](docs/INSTALL.md), [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md), and [docs/SECURITY_AUDIT.md](docs/SECURITY_AUDIT.md).
 
 Not an agent that writes full-stack code. **An agent that HAS a full stack: memory, voice, and face, plus an optional set of hands.** This repo assembles my whole setup on your machine in one guided conversation, and when it finishes, your screen is a living circuit board with your agent's name on the chip, and it speaks first:
 
@@ -27,10 +27,10 @@ Every piece is optional. The wizard asks which ones you want and explains each i
 
 ### Jarvis OpenAI core (this fork)
 
-- Configurable providers: OpenAI, Ollama, Claude-via-backtalk
+- ChatGPT / OpenAI only (streaming + tools)
 - Ask-Before-Acting permissions, audit log, Stop All Actions, secret redaction
 - Localhost dashboard with orb visualizer, usage/budgets, memory viewer
-- Launch: `./start.sh jarvis` or `start.bat jarvis` (after `.env` + `jarvis.json`)
+- Launch: `./start.sh` / `start.bat` (after `.env` + `jarvis.json`)
 
 ## Install
 

@@ -1,10 +1,10 @@
 # Jarvis core (OpenAI-first)
 
-Secure multi-provider assistant that extends [fullstack-agent](https://github.com/jaredrhod/fullstack-agent) without replacing upstream memory, backtalk, visualizer, or barehands.
+ChatGPT-powered Jarvis core that extends fullstack-agent (memory, visualizer, barehands) without Claude Code wiring.
 
 ## Features
 
-- Providers: **OpenAI (ChatGPT)**, **Ollama**, Claude routed via existing backtalk
+- Provider: **ChatGPT / OpenAI only**
 - Streaming chat + strict tool schemas
 - Ask-Before-Acting permissions; high-risk never blanket-approved
 - Local memory vault helpers (works offline)

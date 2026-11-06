@@ -51,11 +51,8 @@ Then mention the optional add-on, once, without pushing it:
 Collect every remaining answer now, so no later step ever has to ask. Skip anything Phase 0 already adopted or Phase 1 declined.
 
 1. **Their name.** You will use it in the finale.
-1b. **AI provider (Jarvis upgrade).** Ask which brain should power the assistant by default:
-    - **OpenAI / ChatGPT** (new default for this fork): needs an `OPENAI_API_KEY` in `.env` (never in git). Copy `.env.example` → `.env` and `jarvis.json.example` → `jarvis.json`. Model selection happens in jarvis settings/dashboard; stream + tool calling go through `jarvis/`.
-    - **Claude Code + backtalk** (original stack): keep the Claude subscription path; voice uses the Claude Agent SDK.
-    - **Ollama** (optional local): only if they already run Ollama; set `provider` to `ollama` in `jarvis.json`.
-    Also capture: preferred model id (or "pick later in dashboard"), monthly API budget USD (local advisory budget + remind them to set a hard limit on the OpenAI project page), microphone mode, visualizer theme (`board` / `radial` / `rain` / `neural` / optional `jarvis` dashboard), memory location, computer-control mode (`read_only` default / `ask` / `off`), and whether webcam/gestures are wanted (default no). Never silently enable always-on listening or webcam.
+1b. **AI provider.** This fork is **ChatGPT / OpenAI only** (no Claude wiring). Needs an `OPENAI_API_KEY` in `.env` (never in git). Copy `.env.example` → `.env` and `jarvis.json.example` → `jarvis/jarvis.json` if missing. Model selection happens in the Jarvis dashboard; stream + tool calling go through `jarvis/`.
+    Also capture: preferred model id (or "pick later in dashboard"), monthly API budget USD (local advisory budget + remind them to set a hard limit on the OpenAI project page), microphone mode, visualizer theme (`board` / `radial` / `rain` / `neural` / optional Jarvis dashboard), memory location, computer-control mode (`read_only` default / `ask` / `off`), and whether webcam/gestures are wanted (default no). Never silently enable always-on listening or webcam.
 2. **The agent's identity** (skip entirely if adopted): the three doors from ai-memory-vault's setup. A: take Jarvis as-is, the author's own agent, personality and all. B: Jarvis's personality, renamed to whatever they want. C: build their own from scratch. Never silently pick; if they shrug, door A.
 3. **The vault** (memory piece): Obsidian's own app config (`obsidian.json`) lists every vault on the machine with its path, and reading it beats quizzing a person who may not know what they have (it lists paths only, never note contents). **No `obsidian.json` at all usually means Obsidian isn't installed. Obsidian is REQUIRED, not optional: it is how the person sees and owns their agent's memory, and the memory piece's own wizard installs it (its Part 1, with the person's OK) as part of setup. Never describe it as optional or skippable.** Vaults the registry lists get offered by name ALONGSIDE the always-present option of a brand-new vault just for this system; having a vault never implies wanting to reuse it. Whatever they pick gets pointed at, never moved, and never commented on: list the registry's vaults by name and path, flat, and say nothing about where any of them lives, even one in Documents or a cloud folder (the memory piece's wizard carries that rule and the reason). A fresh vault is created during install at `~/<their name for it>`, directly in the person's home folder next to the agent folder, and the installer says the full path out loud the moment it exists. Two promises the memory piece's wizard keeps, and this conductor never compresses away: the vault gets REGISTERED in `obsidian.json` so the person's first launch of Obsidian opens straight into it (never the welcome screen), and after creating a fresh vault the wizard says the one honest backup line (the memory lives on this one disk; the free options are in its TROUBLESHOOTING). For an adopted vault it says nothing about backup or location.
 4. **The microphone** (voice piece): push to talk (hold a key to speak, the default: the mic is closed otherwise, so room audio can never trigger the agent) or hands-free listening (always listening, no button; room audio and videos CAN trigger it, and the talk key still works as the interrupt)? Then, which key. Defaults: push to talk, the home key. They can switch modes any time by voice ("go hands free" / "push to talk mode").
@@ -66,7 +63,8 @@ Collect every remaining answer now, so no later step ever has to ask. Skip anyth
 ## Phase 3: Install the pieces
 
 Clone each chosen piece into the home folder as a sibling of this repo, from `github.com/jaredrhod/<name>`:
-ai-memory-vault, backtalk, barehands, ai-visualizer.
+ai-memory-vault, barehands, ai-visualizer.
+Do **not** clone or wire `backtalk` in this ChatGPT-only fork.
 
 **The adoption exceptions, checked before each clone:**
 
@@ -78,20 +76,19 @@ ai-memory-vault, backtalk, barehands, ai-visualizer.
 
 **Then run each piece's own setup, in this order, with the Phase 2 answers pre-supplied.** Each repo has a wizard file (`ai-memory-vault.md`, `backtalk.md`, `barehands.md`, `ai-visualizer.md`). Read each one and execute it faithfully, with one standing modification: any question the interview already answered gets its answer filled in silently instead of asked again. The component wizards are the source of truth for HOW each piece installs; this file only decides the answers and the order:
 
-1. **ai-memory-vault** first (it creates the vault and writes the person's `CLAUDE.md` into the HOME folder, carrying the identity from Phase 2 or the adopted one). **Run its Part 1 whenever Obsidian is missing: check for the app, offer to install it (that wizard carries the exact per-platform commands), and never skip it, soften it, or call it optional. A fullstack setup that ends without Obsidian installed is incomplete, whatever else works.**
-2. **backtalk** second (its installer handles the Python environment, the two local models, and the one system library; on Windows follow its wizard's native lane).
-3. **ai-visualizer** third (no dependencies; seconds).
-4. **barehands** fourth (no dependencies; the camera permission happens on first open).
+1. **Jarvis ChatGPT core** first: `.env`, `jarvis/jarvis.json`, `uv sync` in `jarvis/`.
+2. **ai-memory-vault** (optional) next if they want Obsidian memory (it may write `CLAUDE.md` / identity into the HOME folder). Prefer also writing a short `AGENTS.md` or `JARVIS.md` with the same identity for the ChatGPT core.
+3. **ai-visualizer** (optional face; no dependencies; seconds).
+4. **barehands** (optional hands; no dependencies; the camera permission happens on first open).
+Never install backtalk / Claude Agent SDK.
 
 ## Phase 4: Wire the seams
 
 This part belongs to this wizard alone. Write these config values, then read each file back to confirm it landed:
 
-- **Jarvis OpenAI core (when provider is openai or ollama):** from the toolbox folder, copy `jarvis.json.example` → `jarvis.json` if missing (never overwrite an existing one). Set `name`, `agent_dir`, `provider`, `model`, `mic_mode`, `visualizer_theme`, `memory_dir` (vault path), `computer_mode`, `monthly_budget_usd`, `webcam_enabled`, `gesture_controls`, `permission_mode`=`ask`, and `signals_dir` to the backtalk folder when voice is installed (so existing faces keep working). Ensure `.env` exists from `.env.example` with placeholders only until they paste their key. Run `cd jarvis && uv sync`. Do not commit `.env` or `jarvis.json`.
-- `backtalk/backtalk.json`: `agent_dir` = the home folder. `name` = the agent's name. Add the vault's path to `extra_dirs`: a fresh vault lives at `~/<name>`, next to the agent's home folder and never inside it, and an adopted one lives wherever it always did. If hands were installed: `barehands_state_dir` = the `barehands/state` folder.
-- `backtalk/backtalk.json` greeting: set it to exactly `Hello <their name>, what are we working on today?` so every launch opens with the signature line.
-- `backtalk/backtalk.json`: `permission_mode` = their Phase 2 answer, `"ask"` or `"bypassPermissions"`; `mic_mode` = their Phase 2 answer, `"ptt"` or `"open"`.
-- `ai-visualizer/ai-visualizer.json`: `name` = the agent's name. `face` = their pick. `bus_dir` = the backtalk folder.
+- **Jarvis ChatGPT core:** from the toolbox folder, copy `jarvis.json.example` → `jarvis/jarvis.json` if missing (never overwrite an existing one). Set `name`, `agent_dir`, `provider`=`openai`, `model`, `mic_mode`, `visualizer_theme`, `memory_dir` (vault path), `computer_mode`, `monthly_budget_usd`, `webcam_enabled`, `gesture_controls`, `permission_mode`=`ask`, and `signals_dir` to `jarvis/state` (or the visualizer bus folder). Ensure `.env` exists from `.env.example` with placeholders only until they paste their key. Run `cd jarvis && uv sync`. Do not commit `.env` or `jarvis.json`.
+- `ai-visualizer/ai-visualizer.json` (if face installed): `name` = the agent's name. `face` = their pick. `bus_dir` = the Jarvis signals folder (`jarvis/state`).
+- Skip backtalk / Claude Agent SDK entirely in this fork.
 - `barehands/barehands.json`: `name` = the agent's name.
 
 Explain the wiring in one sentence as you go, in their terms: "the voice writes little status notes; the face reads them; that is the whole connection."

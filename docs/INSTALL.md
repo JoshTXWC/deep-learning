@@ -6,9 +6,7 @@ This fork keeps the original fullstack-agent install flow and adds an **OpenAI-f
 
 - Git (Windows zip install can bootstrap without it; the wizard offers to install git)
 - [uv](https://docs.astral.sh/uv/) for the Jarvis Python env
-- Optional: Claude Code + Claude subscription if you want the original backtalk voice stack
-- Optional: OpenAI API key for ChatGPT provider
-- Optional: Ollama for local models
+- OpenAI API key for ChatGPT (`OPENAI_API_KEY` in `.env`)
 
 ## Quick start (OpenAI Jarvis)
 
@@ -38,9 +36,9 @@ Use the original guided setup (Claude Code / Cursor agent):
 read fullstack-agent.md and set me up
 ```
 
-The wizard now also asks for preferred AI provider (OpenAI / Claude via backtalk / Ollama later), mic mode, visualizer, memory location, computer-control mode, monthly API budget, and optional webcam.
+The wizard configures ChatGPT model, mic mode, visualizer, memory location, computer-control mode, monthly API budget, and optional webcam. Brain is OpenAI only (no Claude wiring).
 
-Upstream pieces still clone from `github.com/jaredrhod/{ai-memory-vault,backtalk,ai-visualizer,barehands}`.
+Optional face/hands still clone from `github.com/jaredrhod/{ai-visualizer,barehands}`; memory from `ai-memory-vault` if wanted.
 
 ## Security defaults
 
