@@ -1,0 +1,14 @@
+{
+  "_comment": "Documented list prices in USD per 1M tokens. Update this file when OpenAI publishes new pricing. Local budgets do NOT stop OpenAI billing by themselves — set project limits in the OpenAI dashboard.",
+  "currency": "USD",
+  "updated": "2026-03-01",
+  "models": {
+    "gpt-4.1": {"input_per_mtok": 2.0, "output_per_mtok": 8.0},
+    "gpt-4.1-mini": {"input_per_mtok": 0.4, "output_per_mtok": 1.6},
+    "gpt-4.1-nano": {"input_per_mtok": 0.1, "output_per_mtok": 0.4},
+    "gpt-4o": {"input_per_mtok": 2.5, "output_per_mtok": 10.0},
+    "gpt-4o-mini": {"input_per_mtok": 0.15, "output_per_mtok": 0.6},
+    "o3-mini": {"input_per_mtok": 1.1, "output_per_mtok": 4.4},
+    "default": {"input_per_mtok": 1.0, "output_per_mtok": 4.0}
+  }
+}

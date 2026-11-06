@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Jarvis</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/app.css" />
+</head>
+<body>
+  <div class="bg"></div>
+  <header class="top">
+    <div class="brand">JARVIS</div>
+    <div class="status-chip" id="stateChip">idle</div>
+    <button type="button" class="danger" id="stopBtn">Stop All Actions</button>
+  </header>
+
+  <main class="stage">
+    <section class="orb-wrap" aria-label="Assistant visualizer">
+      <canvas id="orb" width="420" height="420"></canvas>
+      <div class="orb-label" id="orbLabel">ready</div>
+    </section>
+
+    <aside class="panels">
+      <section class="panel">
+        <h2>Model</h2>
+        <label>Provider
+          <select id="provider">
+            <option value="openai">OpenAI (ChatGPT)</option>
+            <option value="ollama">Ollama (local)</option>
+            <option value="claude">Claude (via backtalk)</option>
+          </select>
+        </label>
+        <label>Model
+          <input id="model" type="text" spellcheck="false" />
+        </label>
+        <button type="button" id="applyModel">Apply</button>
+      </section>
+
+      <section class="panel">
+        <h2>Permissions</h2>
+        <div class="indicators">
+          <span id="micInd">mic</span>
+          <span id="camInd">cam</span>
+          <span id="actInd">actions</span>
+        </div>
+        <div id="pending" class="list"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Usage</h2>
+        <pre id="usage"></pre>
+      </section>
+
+      <section class="panel">
+        <h2>Activity</h2>
+        <div id="audit" class="list"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Memory</h2>
+        <div id="memory" class="list"></div>
+      </section>
+    </aside>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>

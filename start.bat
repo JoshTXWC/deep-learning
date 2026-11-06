@@ -22,8 +22,21 @@ rem close the windows (or this one for the voice) to stop.
 rem   start.bat          everything installed
 rem   start.bat voice    the voice and the face (no hands)
 rem   start.bat hands    the voice and the hands board (no face)
+rem   start.bat jarvis   OpenAI/Ollama Jarvis core + optional dashboard + face
 
+set "TOOLBOX=%~dp0"
 cd /d "%~dp0.."
+
+if /I "%1"=="jarvis" (
+  if exist "ai-visualizer\" (
+    echo   face:  starting
+    start "agent face" cmd /c "cd ai-visualizer && run.bat"
+  )
+  echo   jarvis: starting chat + dashboard
+  cd /d "%TOOLBOX%jarvis"
+  uv run jarvis dashboard
+  goto :eof
+)
 
 if exist "ai-visualizer\" if not "%1"=="hands" (
   echo   face:  starting

@@ -1,8 +1,8 @@
-# fullstack-agent
+# fullstack-agent (Jarvis / OpenAI fork)
 
-> **Never used Claude Code?** Start at [jaredrhod.com](https://jaredrhod.com): pick your situation and it routes you to the right path.
+> Upstream project by [Jared Rhodenizer](https://jaredrhod.com). This fork adds a **secure multi-provider Jarvis core** with **ChatGPT / OpenAI** as a first-class brain, while preserving the original setup wizard, launchers, memory vault, backtalk, ai-visualizer, and barehands.
 
-**Runs on:** Claude Code only; the installer itself is a Claude Code wizard. The $20 Pro plan is enough.
+**Runs on:** OpenAI (ChatGPT) via the new `jarvis/` core, and/or the original Claude Code + backtalk stack. Ollama is stubbed for local models. See [docs/INSTALL.md](docs/INSTALL.md), [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md), and [docs/SECURITY_AUDIT.md](docs/SECURITY_AUDIT.md).
 
 Not an agent that writes full-stack code. **An agent that HAS a full stack: memory, voice, and face, plus an optional set of hands.** This repo assembles my whole setup on your machine in one guided conversation, and when it finishes, your screen is a living circuit board with your agent's name on the chip, and it speaks first:
 
@@ -24,6 +24,13 @@ Four pieces, each its own open repo, each excellent alone, assembled here into o
 - **The hands, the optional extra: [barehands](https://github.com/jaredrhod/barehands).** Move notes and images around your screen with your bare hands through your webcam. No headset, no controllers. Opens in its own window instead of the face. Take it now or add it later by running the same install again.
 
 Every piece is optional. The wizard asks which ones you want and explains each in plain English before you decide.
+
+### Jarvis OpenAI core (this fork)
+
+- Configurable providers: OpenAI, Ollama, Claude-via-backtalk
+- Ask-Before-Acting permissions, audit log, Stop All Actions, secret redaction
+- Localhost dashboard with orb visualizer, usage/budgets, memory viewer
+- Launch: `./start.sh jarvis` or `start.bat jarvis` (after `.env` + `jarvis.json`)
 
 ## Install
 

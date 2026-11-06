@@ -26,6 +26,7 @@
 #   ./start.sh          everything installed
 #   ./start.sh voice    the voice and the face (no hands)
 #   ./start.sh hands    the voice and the hands board (no face)
+#   ./start.sh jarvis   OpenAI/Ollama Jarvis core + optional dashboard + face
 
 HERE="$(cd "$(dirname "$0")" && pwd)"
 HOME_DIR="$(dirname "$HERE")"
@@ -41,6 +42,23 @@ cleanup() {
 trap cleanup EXIT INT TERM
 
 echo "fullstack-agent: starting from $HOME_DIR"
+
+# OpenAI-first Jarvis mode (does not require Claude Code / backtalk).
+if [ "$MODE" = "jarvis" ]; then
+  if [ -d "$HOME_DIR/ai-visualizer" ]; then
+    (cd "$HOME_DIR/ai-visualizer" && exec python3 server.py) &
+    PIDS+=($!)
+    echo "  face:  starting"
+  fi
+  if [ -d "$HERE/jarvis" ]; then
+    echo "  jarvis: starting chat + dashboard (localhost)"
+    cd "$HERE/jarvis" && uv run jarvis dashboard
+  else
+    echo "  jarvis core missing; expected fullstack-agent/jarvis"
+    wait
+  fi
+  exit 0
+fi
 
 if [ -d "$HOME_DIR/ai-visualizer" ] && [ "$MODE" != "hands" ]; then
   (cd "$HOME_DIR/ai-visualizer" && exec python3 server.py) &
